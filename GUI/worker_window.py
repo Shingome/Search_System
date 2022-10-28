@@ -1,8 +1,8 @@
 from windows import *
 from books_window import BooksWindow
 from clients_window import ClientsWindow
-from orders_windows import OrdersWindow
-from requests_windows import RequestsWindow
+from orders_window import OrdersWindow
+from requests_window import RequestsWindow
 
 
 class WorkerWindow(Window):
