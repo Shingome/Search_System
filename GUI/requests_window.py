@@ -4,7 +4,7 @@ from windows import *
 class RequestsWindow(TableWindow):
     def __init__(self, width, height, title, resizable):
         super().__init__(width, height, title, resizable, ['request_id',
-                                                           'client_id',
+                                                           'card_id',
                                                            'name',
                                                            'author',
                                                            'registration_date'])
