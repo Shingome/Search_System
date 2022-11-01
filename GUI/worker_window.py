@@ -28,5 +28,5 @@ class WorkerWindow(Window):
     def open_orders(self, width=1600, height=600, title="Заказы", resizable=(True, True)):
         OrdersWindow(width, height, title, resizable)
 
-    def open_requests(self, width=1600, height=600, title="Заказы", resizable=(True, True)):
+    def open_requests(self, width=1600, height=600, title="Заявки", resizable=(True, True)):
         RequestsWindow(width, height, title, resizable)
