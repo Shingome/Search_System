@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from DB.database_control import DataBase
 
 
 class Window:
@@ -21,6 +22,14 @@ class ChildWindow:
         self.window.grab_set()
         self.window.focus_set()
 
+    @staticmethod
+    def validate_text(P):
+        return True if str.isalpha(P) or P == "" else False
+
+    @staticmethod
+    def validate_digit(P):
+        return True if str.isdigit(P) or P == "" else False
+
 
 class TableWindow(Window):
     def __init__(self, width, height, title, resizable, columns):
@@ -38,18 +47,22 @@ class TableWindow(Window):
         self.frame_database.place(relx=0, rely=0.05, relwidth=1, relheight=0.95)
 
         self.textbox_search = ttk.Entry(self.frame_search)
-        self.button_search = tk.Button(self.frame_search, text="Поиск", command=lambda: self.search())
+        self.button_search = tk.Button(self.frame_search,
+                                       text="Поиск",
+                                       command=lambda: self.search(self.textbox_search.get()))
         self.textbox_search.grid(row=0, column=0, padx=20, ipadx=150, sticky="w", pady=12)
         self.button_search.grid(row=0, column=1, padx=10, sticky="w")
 
-        self.page_prev = tk.Button(self.frame_pagination, text="<")
-        self.page_start = tk.Button(self.frame_pagination, text="start")
+        self.validate = (self.window.register(self.update_date))
+
+        self.page_prev = tk.Button(self.frame_pagination, text="<", command=lambda: self.prev_page())
+        self.page_start = tk.Button(self.frame_pagination, text="start", command=lambda: self.start_page())
         self.page_now = ttk.Entry(self.frame_pagination, width=6,
                                   justify='center',
-                                  validate="focusout",
-                                  validatecommand=self.update_date)
-        self.page_end = tk.Button(self.frame_pagination, text="end")
-        self.page_next = tk.Button(self.frame_pagination, text=">")
+                                  validate="key",
+                                  validatecommand=(self.validate, '%P'))
+        self.page_end = tk.Button(self.frame_pagination, text="end", command=lambda: self.last_page())
+        self.page_next = tk.Button(self.frame_pagination, text=">", command=lambda: self.next_page())
 
         self.page_prev.grid(row=0, column=0, ipadx=15, ipady=2.5, pady=5)
         self.page_start.grid(row=0, column=1, ipadx=15, ipady=2.5, pady=5)
@@ -57,23 +70,51 @@ class TableWindow(Window):
         self.page_end.grid(row=0, column=3, ipadx=15, ipady=2.5, pady=5)
         self.page_next.grid(row=0, column=4, ipadx=15, ipady=2.5, pady=5)
 
-        self.textbox_search = ttk.Entry(self.frame_search)
-        self.button_search = tk.Button(self.frame_search, text="Поиск", command=lambda: self.search())
-        self.textbox_search.grid(row=0, column=0, padx=20, ipadx=150, sticky="w", pady=12)
-        self.button_search.grid(row=0, column=1, padx=10, sticky="w")
-
         self.table, self.scroll_pane = create_table(self.frame_database, columns)
 
         self.scroll_pane.pack(side=tk.RIGHT, fill=tk.Y)
         self.table.pack(expand=tk.YES, fill=tk.BOTH, side=tk.TOP)
 
-    def update_date(self):
+        self.fill_entry()
+
+    def update_date(self, P):
+        if str.isdigit(P):
+            page = int(P)
+            self.this_page = page if 1 <= page <= self.max_page() else self.this_page
+            self.fill_entry()
+            return True
+        else:
+            self.page_now.delete(0, tk.END)
+            self.page_now.insert(0, "")
+            return False
+
+    def fill_entry(self):
+        self.page_now.delete(0, tk.END)
+        self.page_now.insert(0, str(self.this_page))
+        self.fill_page()
+
+    def start_page(self):
+        self.this_page = 1
+        self.fill_entry()
+
+    def prev_page(self):
+        self.this_page -= 1 if self.this_page > 1 else 0
+        self.fill_entry()
+
+    def next_page(self):
+        self.this_page = self.this_page + 1 if self.this_page < self.max_page() else self.max_page()
+        self.fill_entry()
+
+    def max_page(self) -> int:
         pass
 
-    def check_page(self):
+    def last_page(self):
         pass
 
-    def search(self):
+    def fill_page(self):
+        pass
+
+    def search(self, find):
         pass
 
 

@@ -4,7 +4,7 @@ from authorization import AuthorizationWindow
 
 
 class EnterWindow(Window):
-    def __init__(self, width, height, title="Window", resizable=(False, False)):
+    def __init__(self, width, height, title="Меню", resizable=(False, False)):
         super().__init__(width, height, title, resizable)
         but_reader = tk.Button(text='Читатель', command=lambda: self.open_reader())
         but_reader.pack(side=tk.RIGHT, expand=True, padx=20, pady=20, fill=tk.BOTH)
