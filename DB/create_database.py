@@ -9,7 +9,7 @@ database = mysql.connector.connect(
 
 cursor = database.cursor()
 
-# cursor.execute("CREATE DATABASE DB")
+cursor.execute("CREATE DATABASE DB")
 
 cursor.execute("Drop table books, orders, clients, cards, requests")
 
@@ -32,15 +32,15 @@ cursor.execute("CREATE TABLE cards (card_id INT PRIMARY KEY,"
                "registration DATETIME NOT NULL DEFAULT NOW(),"
                "FOREIGN KEY (client_id) REFERENCES clients(client_id) ON DELETE SET NULL)")
 
-cursor.execute("CREATE TABLE orders (order_id INT PRIMARY KEY,"
+cursor.execute("CREATE TABLE orders (order_id INT PRIMARY KEY AUTO_INCREMENT,"
                "book_id INT NOT NULL,"
                "card_id INT NOT NULL,"
-               "get_date DATE NOT NULL,"
-               "return_date DATETIME NOT NULL DEFAULT NOW(),"
+               "get_date DATETIME NOT NULL DEFAULT NOW(),"
+               "return_date DATE DEFAULT NULL,"
                "FOREIGN KEY (book_id) REFERENCES books(book_id),"
                "FOREIGN KEY (card_id) REFERENCES cards(card_id))")
 
-cursor.execute("CREATE TABLE requests (request_id INT PRIMARY KEY,"
+cursor.execute("CREATE TABLE requests (request_id INT PRIMARY KEY AUTO_INCREMENT,"
                "card_id INT NOT NULL,"
                "name varchar(60) NOT NULL,"
                "author varchar(60) NOT NULL,"

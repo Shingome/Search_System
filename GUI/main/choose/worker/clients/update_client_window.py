@@ -1,15 +1,9 @@
-from windows import *
+from Base.windows import *
 
 
-class UpdateClientWindow(ChildWindow):
+class UpdateClientWindow(SupportWindow):
     def __init__(self, parent, width, height, title, resizable):
         super().__init__(parent, width, height, title, resizable)
-        self.grab_focus()
-
-        self.error_x = 1
-
-        self.frame = tk.Frame(self.window)
-        self.frame.place(relx=0.1, rely=0.1, relheight=1, relwidth=0.8)
 
         self.label_id = tk.Label(self.frame, text="Id:")
         self.label_sname = tk.Label(self.frame, text="Имя:")
@@ -59,12 +53,12 @@ class UpdateClientWindow(ChildWindow):
     def update_field(self, client_id, fname, sname, adress, phone):
         try:
             error = False
-            if int(client_id) > int(DataBase.Clients.max_index() / 100) + 1\
-                    or not fname\
-                    or not sname\
-                    or not adress\
-                    or not phone\
-                    or not client_id:
+            if not fname \
+                    or not sname \
+                    or not adress \
+                    or not phone \
+                    or not client_id \
+                    or not DataBase.Clients.check_index(client_id):
                 error = True
             else:
                 DataBase.Clients.update(client_id, fname, sname, adress, phone)
@@ -74,10 +68,3 @@ class UpdateClientWindow(ChildWindow):
             self.error()
         else:
             self.window.destroy()
-
-    def error(self):
-        label_error = tk.Label(self.frame,
-                               text=f"Ошибка(X{self.error_x})",
-                               foreground=["red", "blue"][self.error_x % 2])
-        label_error.grid(row=6, columnspan=2)
-        self.error_x += 1

@@ -41,10 +41,12 @@ class TableWindow(Window):
         self.frame_search = tk.Frame(self.window, bg='silver')
         self.frame_database = tk.Frame(self.window)
         self.frame_pagination = tk.Frame(self.window, bg="silver")
+        self.frame_buttons = tk.Frame(self.window, bg="silver")
 
         self.frame_search.place(relx=0, rely=0, relwidth=1, relheight=0.05)
         self.frame_pagination.place(relx=0.5, rely=0, relwidth=1, relheight=0.05)
         self.frame_database.place(relx=0, rely=0.05, relwidth=1, relheight=0.95)
+        self.frame_buttons.place(relx=0.75, rely=0, relwidth=1, relheight=0.05)
 
         self.textbox_search = ttk.Entry(self.frame_search)
         self.button_search = tk.Button(self.frame_search,
@@ -74,6 +76,22 @@ class TableWindow(Window):
 
         self.scroll_pane.pack(side=tk.RIGHT, fill=tk.Y)
         self.table.pack(expand=tk.YES, fill=tk.BOTH, side=tk.TOP)
+
+        self.button_add_client = tk.Button(self.frame_buttons,
+                                           text="Новая запись",
+                                           command=lambda: self.add())
+
+        self.button_update_client = tk.Button(self.frame_buttons,
+                                              text="Изменить запись",
+                                              command=lambda: self.update())
+
+        self.button_delete_client = tk.Button(self.frame_buttons,
+                                              text="Удалить запись",
+                                              command=lambda: self.delete())
+
+        self.button_add_client.grid(row=0, column=0, pady=8, padx=10)
+        self.button_update_client.grid(row=0, column=1, pady=8, padx=10)
+        self.button_delete_client.grid(row=0, column=2, pady=8, padx=10)
 
         self.fill_entry()
 
@@ -116,6 +134,64 @@ class TableWindow(Window):
 
     def search(self, find):
         pass
+
+    def add(self, width, height, title, resizable):
+        pass
+
+    def update(self, width, height, title, resizable):
+        pass
+
+    def delete(self, width, height, title, resizable):
+        pass
+
+
+class SupportWindow(ChildWindow):
+    def __init__(self, parent, width, height, title, resizable):
+        super().__init__(parent, width, height, title, resizable)
+        self.grab_focus()
+
+        self.error_x = 1
+
+        self.frame = tk.Frame(self.window)
+        self.frame.place(relx=0.1, rely=0.1, relheight=0.85, relwidth=0.8)
+
+        self.val_text = (self.window.register(self.validate_text))
+        self.val_digit = (self.window.register(self.validate_digit))
+
+    def error(self):
+        label_error = tk.Label(self.frame,
+                               text=f"Ошибка(X{self.error_x})",
+                               foreground=["red", "blue"][self.error_x % 2])
+        label_error.place(relx=0.3, rely=0.9, relwidth=0.4)
+        self.error_x += 1
+
+    def add_field(self, *args):
+        pass
+
+
+class DeleteWindow(SupportWindow):
+    def __init__(self, parent, width, height, title, resizable):
+        super().__init__(parent, width, height, title, resizable)
+
+        self.frame.place(relx=0.2, rely=0.2, relheight=0.9, relwidth=0.9)
+
+        self.label_id = tk.Label(self.frame, text="ID:")
+
+        self.textbox_id = ttk.Entry(self.frame,
+                                    validate="key",
+                                    validatecommand=(self.val_digit, "%S"))
+
+        self.button_id = tk.Button(self.frame,
+                                        text="Удалить",
+                                        command=lambda: self.delete_field(self.textbox_id.get()))
+
+        self.label_id.grid(row=0, column=0, sticky=tk.E)
+        self.textbox_id.grid(row=0, column=1)
+        self.button_id.grid(row=1, column=0, columnspan=2, pady=8)
+
+    def delete_field(self, id):
+        pass
+
 
 
 def create_table(frame, columns):

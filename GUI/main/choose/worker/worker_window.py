@@ -1,8 +1,8 @@
-from windows import *
-from books_window import BooksWindow
-from clients_window import ClientsWindow
-from orders_window import OrdersWindow
-from requests_window import RequestsWindow
+from Base.windows import *
+from GUI.main.choose.worker.books.books_window import BooksWindow
+from GUI.main.choose.worker.clients.clients_window import ClientsWindow
+from GUI.main.choose.worker.orders.orders_window import OrdersWindow
+from GUI.main.choose.worker.requests.requests_window import RequestsWindow
 
 
 class WorkerWindow(Window):

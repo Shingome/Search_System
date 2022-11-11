@@ -1,6 +1,6 @@
-from windows import *
-from reader_window import ReaderWindow
-from authorization import AuthorizationWindow
+from Base.windows import *
+from GUI.main.choose.reader.reader_window import ReaderWindow
+from GUI.main.choose.worker.authorization import AuthorizationWindow
 
 
 class EnterWindow(Window):

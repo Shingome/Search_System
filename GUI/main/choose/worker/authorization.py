@@ -1,6 +1,5 @@
-from windows import *
-from worker_window import WorkerWindow
-
+from Base.windows import *
+from GUI.main.choose.worker.worker_window import WorkerWindow
 
 class AuthorizationWindow(ChildWindow):
     def __init__(self, parent, width, height, title, resizable):
