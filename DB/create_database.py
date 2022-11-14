@@ -36,7 +36,7 @@ cursor.execute("CREATE TABLE orders (order_id INT PRIMARY KEY AUTO_INCREMENT,"
                "book_id INT NOT NULL,"
                "card_id INT NOT NULL,"
                "get_date DATETIME NOT NULL DEFAULT NOW(),"
-               "return_date DATE DEFAULT NULL,"
+               "return_date DATETIME DEFAULT NULL,"
                "FOREIGN KEY (book_id) REFERENCES books(book_id),"
                "FOREIGN KEY (card_id) REFERENCES cards(card_id))")
 
@@ -46,5 +46,10 @@ cursor.execute("CREATE TABLE requests (request_id INT PRIMARY KEY AUTO_INCREMENT
                "author varchar(60) NOT NULL,"
                "registration_date DATETIME NOT NULL DEFAULT NOW(),"
                "FOREIGN KEY (card_id) REFERENCES cards(card_id))")
+
+cursor.execute("CREATE TABLE workers (id INT PRIMARY KEY AUTO_INCREMENT, "
+               "login VARCHAR(60) NOT NULL, "
+               "password VARCHAR(60) NOT NULL, "
+               "level INT DEFAULT 0)")
 
 database.commit()

@@ -99,7 +99,7 @@ class DataBase:
 
         @staticmethod
         def get_info(page):
-            request = f"SELECT * FROM clients ORDER BY client_id LIMIT {(page - 1) * 100}, {page * 100 - 1}"
+            request = f"SELECT * FROM clients ORDER BY client_id LIMIT {(page - 1) * 100}, {page * 100}"
             DataBase.cursor.execute(request)
             info = (i for i in DataBase.cursor)
             return info
@@ -127,6 +127,17 @@ class DataBase:
             DataBase.cursor.execute(request)
             info = (i for i in DataBase.cursor)
             return info
+
+        @staticmethod
+        def new_clients(month, year):
+            request = f"SELECT DATE(registration), count(*) " \
+                      f"FROM cards " \
+                      f"WHERE (registration LIKE \"{year}-{month}%\")" \
+                      f"GROUP BY DATE(registration)"
+            DataBase.execute(request)
+            count = (i for i in DataBase.cursor)
+            return count
+
 
     class Books:
         @staticmethod
@@ -176,7 +187,7 @@ class DataBase:
 
         @staticmethod
         def get_info(page):
-            request = f"SELECT * FROM books ORDER BY book_id LIMIT {(page - 1) * 100}, {page * 100 - 1}"
+            request = f"SELECT * FROM books ORDER BY book_id LIMIT {(page - 1) * 100}, {page * 100}"
             DataBase.cursor.execute(request)
             info = (i for i in DataBase.cursor)
             return info
@@ -204,6 +215,17 @@ class DataBase:
             info = (i for i in DataBase.cursor)
             return info
 
+        @staticmethod
+        def count(month, year):
+            request = f"SELECT name, COUNT(*) " \
+                      f"FROM books JOIN orders " \
+                      f"ON books.book_id = orders.book_id " \
+                      f"WHERE (DATE(get_date) LIKE \"{year}-{month}%\")" \
+                      f"GROUP BY books.name"
+            DataBase.cursor.execute(request)
+            info = (i for i in DataBase.cursor)
+            return info
+
     class Requests:
         @save
         @change_string
@@ -216,7 +238,7 @@ class DataBase:
 
         @staticmethod
         def get_info(page):
-            request = f"SELECT * FROM requests ORDER BY request_id LIMIT {(page - 1) * 100}, {page * 100 - 1}"
+            request = f"SELECT * FROM requests ORDER BY request_id LIMIT {(page - 1) * 100}, {page * 100}"
             DataBase.cursor.execute(request)
             info = (i for i in DataBase.cursor)
             return info
@@ -261,7 +283,7 @@ class DataBase:
 
         @staticmethod
         def get_info(page):
-            request = f"SELECT * FROM orders ORDER BY order_id LIMIT {(page - 1) * 100}, {page * 100 - 1}"
+            request = f"SELECT * FROM orders ORDER BY order_id LIMIT {(page - 1) * 100}, {page * 100}"
             DataBase.cursor.execute(request)
             info = (i for i in DataBase.cursor)
             return info
@@ -283,4 +305,113 @@ class DataBase:
             DataBase.cursor.execute(request)
             info = (i for i in DataBase.cursor)
             return info
+        @save
+        @staticmethod
+        def returned(client_id, book_id):
+            import time
+            import datetime
+
+            now = datetime.datetime(*list(int(i) for i in time.strftime("%Y %m %d %H %m %S").split(" ")))
+
+            request = f"UPDATE orders " \
+                      f"SET return_date = \"{now}\"" \
+                      f"WHERE card_id = {DataBase.Clients.card_from_client(client_id)} " \
+                      f"AND (book_id = {book_id})"
+
+            DataBase.cursor.execute(request)
+
+        @staticmethod
+        def unreturned():
+            request = "SELECT * FROM orders WHERE return_date is NULL"
+            DataBase.cursor.execute(request)
+            info = (i for i in DataBase.cursor)
+            return info
+
+        @staticmethod
+        def new_orders(month, year):
+            request = f"SELECT DATE(get_date), count(*) " \
+                      f"FROM orders " \
+                      f"WHERE (DATE(get_date) LIKE \"{year}-{month}%\")" \
+                      f"GROUP BY DATE(get_date)"
+            DataBase.execute(request)
+            count = (i for i in DataBase.cursor)
+            return count
+
+    class Workers:
+        @save
+        @change_string
+        @staticmethod
+        def add(login, password, level):
+            request = f"INSERT INTO workers(login, password, level)" \
+                      f"VALUES ({login}, {password}, {level})"
+
+            DataBase.execute(request)
+
+        @save
+        @change_string
+        @staticmethod
+        def update(worker_id, login, password, level):
+            request = f"UPDATE workers " \
+                      f"SET" \
+                      f" login = {login}," \
+                      f" password = {password}," \
+                      f" level = {level}" \
+                      f"where id = {worker_id}"
+
+            DataBase.cursor.execute(request)
+
+        @staticmethod
+        def get_info(page):
+            request = f"SELECT * FROM workers ORDER BY id LIMIT {(page - 1) * 100}, {page * 100}"
+            DataBase.cursor.execute(request)
+            info = (i for i in DataBase.cursor)
+            return info
+
+        @staticmethod
+        def search(find):
+            if not str.isdigit(find):
+                request = f"SELECT * " \
+                          f"FROM workers " \
+                          f"WHERE login LIKE \"%{find}%\""
+            else:
+                request = f"SELECT * " \
+                          f"FROM workers " \
+                          f"WHERE id = {find}"
+
+            DataBase.cursor.execute(request)
+            info = (i for i in DataBase.cursor)
+            return info
+
+        @save
+        @staticmethod
+        def delete(id):
+            request = f"DELETE FROM workers " \
+                      f"WHERE id = {id}"
+            DataBase.cursor.execute(request)
+
+        @staticmethod
+        def max_index():
+            DataBase.cursor.execute("SELECT max(id) FROM workers")
+            index = (i for i in DataBase.cursor).__next__()[0]
+            return index
+
+        @staticmethod
+        def check(login, password):
+            request = f"SELECT level" \
+                      f" FROM workers" \
+                      f" WHERE login LIKE \"{login}\"" \
+                      f" AND password LIKE \"{password}\""
+            DataBase.cursor.execute(request)
+            try:
+                level = (i for i in DataBase.cursor).__next__()[0]
+            except:
+                level = 0
+            return level
+
+        @staticmethod
+        def check_index(worker_id):
+            DataBase.cursor.execute(f"SELECT COUNT(*) FROM workers WHERE id = {worker_id}")
+            index = (i for i in DataBase.cursor).__next__()[0]
+            return bool(index)
+
 

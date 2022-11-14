@@ -1,7 +1,7 @@
 from Base.windows import *
-from GUI.main.choose.worker.clients.add_client_window import AddClientWindow
-from GUI.main.choose.worker.clients.update_client_window import UpdateClientWindow
-from GUI.main.choose.worker.clients.delete_client_window import DeleteClientWindow
+from GUI.main.choose.worker.worker.clients.add_client_window import AddClientWindow
+from GUI.main.choose.worker.worker.clients.update_client_window import UpdateClientWindow
+from GUI.main.choose.worker.worker.clients.delete_client_window import DeleteClientWindow
 
 
 class ClientsWindow(TableWindow):

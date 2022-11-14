@@ -181,13 +181,13 @@ class DeleteWindow(SupportWindow):
                                     validate="key",
                                     validatecommand=(self.val_digit, "%S"))
 
-        self.button_id = tk.Button(self.frame,
+        self.button_del = tk.Button(self.frame,
                                         text="Удалить",
                                         command=lambda: self.delete_field(self.textbox_id.get()))
 
         self.label_id.grid(row=0, column=0, sticky=tk.E)
         self.textbox_id.grid(row=0, column=1)
-        self.button_id.grid(row=1, column=0, columnspan=2, pady=8)
+        self.button_del.grid(row=1, column=0, columnspan=2, pady=8)
 
     def delete_field(self, id):
         pass

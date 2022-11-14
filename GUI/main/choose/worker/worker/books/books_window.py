@@ -1,7 +1,7 @@
 from Base.windows import *
-from GUI.main.choose.worker.books.add_book_window import AddBookWindow
-from GUI.main.choose.worker.books.delete_book_window import DeleteBookWindow
-from GUI.main.choose.worker.books.update_book_window import UpdateBookWindow
+from GUI.main.choose.worker.worker.books.add_book_window import AddBookWindow
+from GUI.main.choose.worker.worker.books.delete_book_window import DeleteBookWindow
+from GUI.main.choose.worker.worker.books.update_book_window import UpdateBookWindow
 
 
 class BooksWindow(TableWindow):

@@ -1,5 +1,6 @@
 from Base.windows import *
-from GUI.main.choose.worker.orders.add_order_window import AddOrderWindow
+from GUI.main.choose.worker.worker.orders.add_order_window import AddOrderWindow
+from GUI.main.choose.worker.worker.orders.return_window import ReturnOrderWindow
 
 
 class OrdersWindow(TableWindow):
@@ -9,8 +10,10 @@ class OrdersWindow(TableWindow):
         self.button_return = self.button_update_client
         self.button_unreturned = self.button_delete_client
 
-        self.button_return.configure(text="Возврат")
-        self.button_unreturned.configure(text="Невернувшие")
+        self.button_return.configure(text="Возврат",
+                                     command=lambda: self.return_window())
+        self.button_unreturned.configure(text="Задолжники",
+                                         command=lambda: self.unreturned())
 
     def fill_page(self):
         self.table.delete(*self.table.get_children())
@@ -32,3 +35,10 @@ class OrdersWindow(TableWindow):
     def add(self, width=250, height=150, title="Добавить запись", resizable=(False, False)):
         AddOrderWindow(self.window, width, height, title, resizable)
 
+    def return_window(self, width=300, height=150, title="Возврат", resizable=(False, False)):
+        ReturnOrderWindow(self.window, width, height, title, resizable)
+
+    def unreturned(self):
+        self.table.delete(*self.table.get_children())
+        for i in DataBase.Orders.unreturned():
+            self.table.insert('', tk.END, values=i)

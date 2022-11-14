@@ -1,5 +1,5 @@
 from Base.windows import *
-from GUI.main.choose.worker.books.add_book_window import AddBookWindow
+from GUI.main.choose.worker.worker.books.add_book_window import AddBookWindow
 
 
 class UpdateBookWindow(AddBookWindow):

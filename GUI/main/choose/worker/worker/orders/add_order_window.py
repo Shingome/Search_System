@@ -5,8 +5,8 @@ class AddOrderWindow(SupportWindow):
     def __init__(self, parent, width, height, title, resizable):
         super().__init__(parent, width, height, title, resizable)
 
-        self.label_book_id = tk.Label(self.frame, text="ID:")
-        self.label_client_id = tk.Label(self.frame, text="Название:")
+        self.label_book_id = tk.Label(self.frame, text="ID книги:")
+        self.label_client_id = tk.Label(self.frame, text="ID клиента:")
 
         self.textbox_book_id = ttk.Entry(self.frame,
                                     validate="key",

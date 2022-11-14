@@ -1,14 +1,13 @@
 from Base.windows import *
-from GUI.main.choose.worker.books.books_window import BooksWindow
-from GUI.main.choose.worker.clients.clients_window import ClientsWindow
-from GUI.main.choose.worker.orders.orders_window import OrdersWindow
-from GUI.main.choose.worker.requests.requests_window import RequestsWindow
+from GUI.main.choose.worker.worker.books.books_window import BooksWindow
+from GUI.main.choose.worker.worker.clients.clients_window import ClientsWindow
+from GUI.main.choose.worker.worker.orders.orders_window import OrdersWindow
+from GUI.main.choose.worker.worker.requests.requests_window import RequestsWindow
 
 
 class WorkerWindow(Window):
     def __init__(self, width, height, title, resizable):
         super().__init__(width, height, title, resizable)
-        self.window.minsize(300, 400)
         button_books = tk.Button(text="Книжный фонд", command=lambda: self.open_books())
         button_clients = tk.Button(text="Читатели", command=lambda: self.open_clients())
         button_orders = tk.Button(text="Заказы", command=lambda: self.open_orders())

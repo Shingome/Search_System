@@ -20,4 +20,5 @@ class EnterWindow(Window):
         AuthorizationWindow(self.window, width, height, title, resizable)
 
 
-app = EnterWindow(400, 200)
+if __name__ == "__main__":
+    app = EnterWindow(400, 200)
