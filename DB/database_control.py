@@ -38,6 +38,16 @@ class DataBase:
     def string_to_MYSQL(string):
         return "\"" + string + "\""
 
+    @staticmethod
+    def get_tables():
+        tables = dict()
+        tables['clients'] = DataBase.Clients.get_client_table()
+        tables['cards'] = DataBase.Clients.get_card_table()
+        tables['books'] = DataBase.Books.get_book_table()
+        tables['requests'] = DataBase.Requests.get_request_table()
+        tables['orders'] = DataBase.Orders.get_order_table()
+        return tables
+
     class Clients:
         @staticmethod
         def max_index():
@@ -138,6 +148,17 @@ class DataBase:
             count = (i for i in DataBase.cursor)
             return count
 
+        @staticmethod
+        def get_client_table():
+            request = "SELECT * FROM clients"
+            DataBase.cursor.execute(request)
+            return tuple(i for i in DataBase.cursor)
+
+        @staticmethod
+        def get_card_table():
+            request = "SELECT * FROM cards"
+            DataBase.cursor.execute(request)
+            return tuple(i for i in DataBase.cursor)
 
     class Books:
         @staticmethod
@@ -226,6 +247,12 @@ class DataBase:
             info = (i for i in DataBase.cursor)
             return info
 
+        @staticmethod
+        def get_book_table():
+            request = "SELECT * FROM books"
+            DataBase.cursor.execute(request)
+            return tuple(i for i in DataBase.cursor)
+
     class Requests:
         @save
         @change_string
@@ -270,6 +297,12 @@ class DataBase:
             DataBase.cursor.execute(request)
             info = (i for i in DataBase.cursor)
             return info
+
+        @staticmethod
+        def get_request_table():
+            request = "SELECT * FROM requests"
+            DataBase.cursor.execute(request)
+            return tuple(i for i in DataBase.cursor)
 
     class Orders:
         @save
@@ -336,6 +369,12 @@ class DataBase:
             DataBase.execute(request)
             count = (i for i in DataBase.cursor)
             return count
+
+        @staticmethod
+        def get_order_table():
+            request = "SELECT * FROM orders"
+            DataBase.cursor.execute(request)
+            return tuple(i for i in DataBase.cursor)
 
     class Workers:
         @save
@@ -413,5 +452,3 @@ class DataBase:
             DataBase.cursor.execute(f"SELECT COUNT(*) FROM workers WHERE id = {worker_id}")
             index = (i for i in DataBase.cursor).__next__()[0]
             return bool(index)
-
-

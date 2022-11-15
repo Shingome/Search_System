@@ -6,7 +6,7 @@ from DB.database_control import DataBase
 class Analytics:
     @staticmethod
     def median_orders(month, year):
-        pass
+        return sum(int(i[1]) for i in DataBase.Orders.new_orders(month, year)) / calendar.monthrange(year, month)[1]
 
     @staticmethod
     def new_orders(month, year):
@@ -20,11 +20,14 @@ class Analytics:
             mon[key] = value
         series = pd.Series(mon)
         series.plot()
+        plt.text(25, series.max(), "Всего: " + str(series.sum()), fontsize=15, bbox=dict(boxstyle="square, pad=0.5"))
+        plt.xlabel("Дни")
+        plt.ylabel("Заказы")
         plt.show()
 
     @staticmethod
     def median_readers(month, year):
-        pass
+        return sum(int(i[1]) for i in DataBase.Clients.new_clients(month, year)) / calendar.monthrange(year, month)[1]
 
     @staticmethod
     def new_readers(month, year):
@@ -38,10 +41,18 @@ class Analytics:
             mon[key] = value
         series = pd.Series(mon)
         series.plot()
+        plt.text(25, series.max(), "Всего: " + str(series.sum()), fontsize=15, bbox=dict(boxstyle="square, pad=0.5"))
+        plt.xlabel("Дни")
+        plt.ylabel("Читатели")
         plt.show()
 
     @staticmethod
-    def besseller(month, year):
+    def bestseller(month, year):
         df = pd.DataFrame(DataBase.Books.count(month, year), columns=("name", "count"))
-        print(df.max()['name'])
-        print(df)
+        return tuple(i for i in df.max())
+
+    @staticmethod
+    def db_to_excel(path:str):
+        tables = DataBase.get_tables()
+        for i in tables:
+            pd.DataFrame(tables[i]).to_excel(f"{path}/{i}.xlsx", sheet_name=i)

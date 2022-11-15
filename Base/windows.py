@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from DB.database_control import DataBase
+from DB.analytics import Analytics
 
 
 class Window:
@@ -93,7 +94,12 @@ class TableWindow(Window):
         self.button_update_client.grid(row=0, column=1, pady=8, padx=10)
         self.button_delete_client.grid(row=0, column=2, pady=8, padx=10)
 
+        self.window.bind('<Return>', self.search_bind)
+
         self.fill_entry()
+
+    def search_bind(self, *args):
+        return self.search(self.textbox_search.get())
 
     def update_date(self, P):
         if str.isdigit(P):
@@ -158,6 +164,7 @@ class SupportWindow(ChildWindow):
         self.val_text = (self.window.register(self.validate_text))
         self.val_digit = (self.window.register(self.validate_digit))
 
+
     def error(self):
         label_error = tk.Label(self.frame,
                                text=f"Ошибка(X{self.error_x})",
@@ -167,6 +174,14 @@ class SupportWindow(ChildWindow):
 
     def add_field(self, *args):
         pass
+
+
+class LabelWindow(SupportWindow):
+    def __init__(self, parent, width, height, title, resizable):
+        super().__init__(parent, width, height, title, resizable)
+        self.frame.place(relheight=1, relwidth=1, rely=0, relx=0)
+        self.label = tk.Label(self.frame)
+        self.label.place(relheight=1, relwidth=1, rely=0, relx=0)
 
 
 class DeleteWindow(SupportWindow):
@@ -182,8 +197,8 @@ class DeleteWindow(SupportWindow):
                                     validatecommand=(self.val_digit, "%S"))
 
         self.button_del = tk.Button(self.frame,
-                                        text="Удалить",
-                                        command=lambda: self.delete_field(self.textbox_id.get()))
+                                    text="Удалить",
+                                    command=lambda: self.delete_field(self.textbox_id.get()))
 
         self.label_id.grid(row=0, column=0, sticky=tk.E)
         self.textbox_id.grid(row=0, column=1)
@@ -191,7 +206,6 @@ class DeleteWindow(SupportWindow):
 
     def delete_field(self, id):
         pass
-
 
 
 def create_table(frame, columns):
