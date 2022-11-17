@@ -5,7 +5,11 @@ from GUI.main.choose.worker.worker.orders.return_window import ReturnOrderWindow
 
 class OrdersWindow(TableWindow):
     def __init__(self, width, height, title, resizable):
-        super().__init__(width, height, title, resizable, ['order_id', 'book_id', 'card_id', 'get_date', 'return_date'])
+        super().__init__(width, height, title, resizable, ['ID Заказа',
+                                                           'ID Книги',
+                                                           'ID Билета',
+                                                           'Дата получения',
+                                                           'Дата возврата'])
 
         self.button_return = self.button_update_client
         self.button_unreturned = self.button_delete_client

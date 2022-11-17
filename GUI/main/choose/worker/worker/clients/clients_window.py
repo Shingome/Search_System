@@ -6,12 +6,12 @@ from GUI.main.choose.worker.worker.clients.delete_client_window import DeleteCli
 
 class ClientsWindow(TableWindow):
     def __init__(self, width, height, title, resizable):
-        super().__init__(width, height, title, resizable, ['client_id',
-                                                           'card_id',
-                                                           'fname',
-                                                           'cname',
-                                                           'adress',
-                                                           'phone'])
+        super().__init__(width, height, title, resizable, ['ID Клиента',
+                                                           'ID Билета',
+                                                           'Имя',
+                                                           'Фамилия',
+                                                           'Адрес',
+                                                           'Телефон'])
 
     def fill_page(self):
         self.table.delete(*self.table.get_children())

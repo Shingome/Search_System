@@ -11,8 +11,6 @@ cursor = database.cursor()
 
 cursor.execute("CREATE DATABASE DB")
 
-cursor.execute("Drop table books, orders, clients, cards, requests")
-
 cursor.execute("CREATE TABLE books (book_id INT PRIMARY KEY,"
                "name varchar(60),"
                "author varchar(60),"

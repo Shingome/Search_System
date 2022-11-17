@@ -4,12 +4,14 @@ from GUI.main.choose.reader.create_request_window import CreateRequestWindow
 
 class ReaderWindow(TableWindow):
     def __init__(self, width, height, title, resizable):
-        super().__init__(width, height, title, resizable, ['name', 'author', 'publish', 'year', 'pages'])
+        super().__init__(width, height, title, resizable, ['Название', 'Автор', 'Издательство', 'Год', 'Страницы'])
 
         self.frame_request = tk.Frame(self.window, bg="silver")
         self.frame_request.place(relx=0.75, relwidth=0.25, relheight=0.05)
 
-        self.button_request = tk.Button(self.frame_request, text="Не нашел книгу?", command=lambda: self.request_window())
+        self.button_request = tk.Button(self.frame_request,
+                                        text="Не нашел книгу?",
+                                        command=lambda: self.request_window())
         self.button_request.pack(side=tk.RIGHT, padx=30)
 
     @staticmethod
@@ -36,5 +38,5 @@ class ReaderWindow(TableWindow):
         for i in self.hide_index(DataBase.Books.search(find)):
             self.table.insert('', tk.END, values=i)
 
-    def request_window(self, width=280, height=180, title="Работник", resizable=(False, False)):
+    def request_window(self, width=280, height=180, title="Не нашел книгу?", resizable=(False, False)):
         CreateRequestWindow(self.window, width, height, title, resizable)

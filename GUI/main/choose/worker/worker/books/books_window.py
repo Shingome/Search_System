@@ -6,7 +6,12 @@ from GUI.main.choose.worker.worker.books.update_book_window import UpdateBookWin
 
 class BooksWindow(TableWindow):
     def __init__(self, width, height, title, resizable):
-        super().__init__(width, height, title, resizable, ['id', 'name', 'author', 'publish', 'year', 'pages'])
+        super().__init__(width, height, title, resizable, ['ID Книги',
+                                                           'Название',
+                                                           'Автор',
+                                                           'Издательство',
+                                                           'Год',
+                                                           'Страницы'])
 
     def fill_page(self):
         self.table.delete(*self.table.get_children())

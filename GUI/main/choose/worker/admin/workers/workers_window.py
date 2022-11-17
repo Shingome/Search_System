@@ -6,10 +6,10 @@ from GUI.main.choose.worker.admin.workers.delete_worker_window import DeleteWork
 
 class WorkersWindow(TableWindow):
     def __init__(self, width, height, title, resizable):
-        super().__init__(width, height, title, resizable, ['worker_id',
-                                                           'login',
-                                                           'password',
-                                                           'level'])
+        super().__init__(width, height, title, resizable, ['ID Сотрудника',
+                                                           'Логин',
+                                                           'Пароль',
+                                                           'Доступ'])
 
     def fill_page(self):
         self.table.delete(*self.table.get_children())
@@ -31,7 +31,7 @@ class WorkersWindow(TableWindow):
     def add(self, width=300, height=180, title="Добавить запись", resizable=(False, False)):
         AddWorkerWindow(self.window, width, height, title, resizable)
 
-    def update(self, width=300, height=200, title="Добавить запись", resizable=(False, False)):
+    def update(self, width=300, height=200, title="Изменить запись", resizable=(False, False)):
         UpdateWorkerWindow(self.window, width, height, title, resizable)
 
     def delete(self, width=250, height=100, title="Удалить запись", resizable=(False, False)):

@@ -5,7 +5,6 @@ def save(func):
     def saved(*args, **kwargs):
         func(*args, *kwargs)
         DataBase.database.commit()
-
     return saved
 
 
@@ -16,7 +15,6 @@ def change_string(func):
             if type(args[i]) == str:
                 args[i] = DataBase.string_to_MYSQL(args[i])
         func(*args)
-
     return changed
 
 

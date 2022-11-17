@@ -1,5 +1,4 @@
 import tkinter.messagebox
-
 from Base.windows import *
 import tkinter.filedialog as tf
 from GUI.main.choose.worker.admin.reports.median_orders_window import MedianOrdersWindow

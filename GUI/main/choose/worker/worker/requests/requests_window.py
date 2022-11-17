@@ -3,11 +3,11 @@ from Base.windows import *
 
 class RequestsWindow(TableWindow):
     def __init__(self, width, height, title, resizable):
-        super().__init__(width, height, title, resizable, ['request_id',
-                                                           'card_id',
-                                                           'name',
-                                                           'author',
-                                                           'registration_date'])
+        super().__init__(width, height, title, resizable, ['ID заявки',
+                                                           'ID билета',
+                                                           'Название',
+                                                           'Автор',
+                                                           'Дата регистрации'])
         self.frame_buttons.place_forget()
 
     def fill_page(self):
